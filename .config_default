@@ -1,0 +1,7 @@
+MYSQL_BIN="/Applications/MAMP/Library/bin/mysql"
+DATABASE="my_test"
+USER="test_user"
+PASSWORD="123456"
+ROOT_USER="root"
+ROOT_PASSWORD="root"
+HOST="localhost"

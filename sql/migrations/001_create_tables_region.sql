@@ -1,0 +1,4 @@
+CREATE TABLE regions (
+	region_id INT (11) AUTO_INCREMENT PRIMARY KEY,
+	region_name VARCHAR (25) DEFAULT NULL
+);
