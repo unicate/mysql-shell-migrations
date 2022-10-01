@@ -108,11 +108,17 @@ create() {
 ############################
 migrate() {
   echo ">>> Execute migrations on database '${DATABASE}'."
+  ERROR_COUNTER=0;
   for fileName in $(ls "$BASEDIR"/sql/migrations/*.sql | sort -n); do
     echo ">>> Executing SQL" "$fileName"
     $MYSQL_BIN --defaults-extra-file=./.db.cnf < "$fileName"
+    if [ $? -ne 0 ]
+    then
+      ERROR_COUNTER=$((ERROR_COUNTER+1))
+    fi
   done
-  echo ">>> Completed."
+  echo ""
+  echo ">>> Completed with ${ERROR_COUNTER} errors."
 }
 
 ############################
