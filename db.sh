@@ -98,7 +98,7 @@ EOL
 # Create Database
 ############################
 create() {
-  echo ">>> Create Database."
+  echo ">>> Create database '${DATABASE}'."
   $MYSQL_BIN < "$BASEDIR"/sql/create_db.sql --defaults-extra-file=./.root.cnf
   echo ">>> Completed."
 }
@@ -107,9 +107,9 @@ create() {
 # Run DB Migrations
 ############################
 migrate() {
-  echo ">>> Execute Migrations."
+  echo ">>> Execute migrations on database '${DATABASE}'."
   for fileName in $(ls "$BASEDIR"/sql/migrations/*.sql | sort -n); do
-    echo ">>> Executing" "$fileName"
+    echo ">>> Executing SQL" "$fileName"
     $MYSQL_BIN --defaults-extra-file=./.db.cnf < "$fileName"
   done
   echo ">>> Completed."
@@ -119,7 +119,7 @@ migrate() {
 # Drop Database
 ############################
 drop() {
-  echo ">>> Dropping Database."
+  echo ">>> Dropping database '${DATABASE}'."
   $MYSQL_BIN < "$BASEDIR"/sql/drop_db.sql --defaults-extra-file=./.root.cnf
   echo ">>> Completed."
 }
