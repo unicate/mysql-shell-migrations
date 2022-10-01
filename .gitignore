@@ -1,2 +1,6 @@
 .idea
 .config
+create_db.sql
+drop_db.sql
+.db.cnf
+.root.cnf
