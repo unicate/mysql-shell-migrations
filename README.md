@@ -5,14 +5,14 @@
 This shell script is an extremely simplified version of a database migration tool 
 like [Flyway](https://flywaydb.org/) or [Phinx](https://phinx.org/).
 
-It is simplified, because I beliefe it will be sufficient for 80 % of all cases, where you don't have 
+It is simplified, because I believe it will be sufficient for 80 % of all cases, where you don't have 
 to deal with millions of rows and hundreds of sql files.
 
 You don't need down- or undo-migrations. In reality they will not work anyway and they just add complexity.
 And really, down migrations are not meant to replace a proper backup and restore process for your database.
 [Please read this note about 'undo-migrations' on the Flyway homepage.](https://flywaydb.org/documentation/concepts/migrations#undo-migrations)
 
-So keep it simple, stupid! If some migrations fail. Just fix, reset and run migrations again from the start.
+So keep it simple, stupid! If some migrations fail, just fix the sql, reset and run migrations again from the start.
 
 **The only way is up!**
 
