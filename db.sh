@@ -98,8 +98,19 @@ EOL
 # Create Database
 ############################
 create() {
-  echo ">>> Create database '${DATABASE}'."
+  echo ">>> Creating database '${DATABASE}'."
   $MYSQL_BIN < "$BASEDIR"/sql/create_db.sql --defaults-extra-file=./.root.cnf
+  echo ">>> Completed."
+}
+
+############################
+# Reset Migrations
+############################
+reset() {
+  drop
+  create
+  echo ">>> Reset migrations."
+  mv "$BASEDIR"/sql/migrations/done/*.sql "$BASEDIR"/sql/migrations/
   echo ">>> Completed."
 }
 
@@ -115,6 +126,8 @@ migrate() {
     if [ $? -ne 0 ]
     then
       ERROR_COUNTER=$((ERROR_COUNTER+1))
+    else
+     mv "$fileName" "$BASEDIR"/sql/migrations/done/
     fi
   done
   echo ""
@@ -148,10 +161,13 @@ clean() {
 case "$1" in
 "init")
   init
+  create
   ;;
 "run")
-  create
   migrate
+  ;;
+"reset")
+  reset
   ;;
 "drop")
   drop
@@ -160,7 +176,7 @@ case "$1" in
   clean
   ;;
 *)
-  echo 'Usage: ./db.sh [init|run|drop|clean]'
+  echo 'Usage: ./db.sh [init|run|reset|drop|clean]'
   exit 1
   ;;
 esac
