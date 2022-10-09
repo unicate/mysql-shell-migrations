@@ -68,27 +68,30 @@ EOL
 
 # Writing Create DB SQL
 cat > ./sql/create_db.sql << EOL
-DROP DATABASE IF EXISTS ${DATABASE};
+DROP DATABASE IF EXISTS \`${DATABASE}\`;
 
 DROP USER IF EXISTS '${USER}'@'localhost';
 DROP USER IF EXISTS '${USER}'@'%';
 
-CREATE DATABASE ${DATABASE} CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE \`${DATABASE}\` CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE USER '${USER}'@'localhost' IDENTIFIED BY '${PASSWORD}';
 CREATE USER '${USER}'@'%' IDENTIFIED BY '${PASSWORD}';
 
-GRANT ALL ON ${DATABASE}.* TO '${USER}'@'localhost';
-GRANT ALL ON ${DATABASE}.* TO '${USER}'@'%';
+GRANT ALL ON \`${DATABASE}\`.* TO '${USER}'@'localhost';
+GRANT ALL ON \`${DATABASE}\`.* TO '${USER}'@'%';
 
 FLUSH PRIVILEGES;
 
-use ${DATABASE};
+use \`${DATABASE}\`;
 EOL
 
 # Writing Drop DB SQL
 cat > ./sql/drop_db.sql << EOL
-DROP DATABASE IF EXISTS ${DATABASE};
+DROP DATABASE IF EXISTS \`${DATABASE}\`;
+
+DROP USER IF EXISTS '${USER}'@'localhost';
+DROP USER IF EXISTS '${USER}'@'%';
 EOL
 
   echo ">>> Completed."
@@ -122,12 +125,16 @@ migrate() {
   ERROR_COUNTER=0;
   for fileName in $(ls "$BASEDIR"/sql/migrations/*.sql | sort -n); do
     echo ">>> Executing SQL" "$fileName"
+    start=`date +%s`
     $MYSQL_BIN --defaults-extra-file=./.db.cnf < "$fileName"
+    end=`date +%s`
+    runtime=$((end-start))
     if [ $? -ne 0 ]
     then
       ERROR_COUNTER=$((ERROR_COUNTER+1))
     else
-     mv "$fileName" "$BASEDIR"/sql/migrations/done/
+      #echo $runtime
+      mv "$fileName" "$BASEDIR"/sql/migrations/done/
     fi
   done
   echo ""
