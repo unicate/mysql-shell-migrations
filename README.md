@@ -28,6 +28,13 @@ Fist create config file.
 
 Then edit .config with your favorite text editor.
 
+Set the absolute path to the mysql binary. Usually it's something like `/usr/bin/mysql`, `/usr/sbin/mysql` or `/usr/local/mysql`.
+If you don't know try `which` or `whereis` commands.
+
+In this example it is configured for MAMP under the following path:
+
+    /Applications/MAMP/Library/bin/mysql
+
 Make sure the MYSQL root user and password are set correctly. You can leave the rest unchanged.
     
     ROOT_USER="root"
