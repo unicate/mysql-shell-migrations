@@ -125,15 +125,11 @@ migrate() {
   ERROR_COUNTER=0;
   for fileName in $(ls "$BASEDIR"/sql/migrations/*.sql | sort -n); do
     echo ">>> Executing SQL" "$fileName"
-    start=`date +%s`
     $MYSQL_BIN --defaults-extra-file=./.db.cnf < "$fileName"
-    end=`date +%s`
-    runtime=$((end-start))
     if [ $? -ne 0 ]
     then
       ERROR_COUNTER=$((ERROR_COUNTER+1))
     else
-      #echo $runtime
       mv "$fileName" "$BASEDIR"/sql/migrations/done/
     fi
   done
