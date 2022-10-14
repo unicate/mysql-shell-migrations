@@ -1,4 +1,5 @@
 MYSQL_BIN="/Applications/MAMP/Library/bin/mysql"
+MYSQLDUMP_BIN="/Applications/MAMP/Library/bin/mysqldump"
 DATABASE="my_test"
 USER="test_user"
 PASSWORD="123456"

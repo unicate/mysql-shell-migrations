@@ -121,7 +121,7 @@ reset() {
 # Run DB Migrations
 ############################
 migrate() {
-  echo ">>> Execute migrations on database '${DATABASE}'."
+  echo ">>> Executing migrations on database '${DATABASE}'."
   ERROR_COUNTER=0;
   for fileName in $(ls "$BASEDIR"/sql/migrations/*.sql | sort -n); do
     echo ">>> Executing SQL" "$fileName"
@@ -136,6 +136,16 @@ migrate() {
   echo ""
   echo ">>> Completed with ${ERROR_COUNTER} errors."
 }
+
+############################
+# Snapshot
+############################
+snapshot() {
+  echo ">>> Creating snapshot of database '${DATABASE}'."
+  $MYSQLDUMP_BIN --defaults-extra-file=./.root.cnf --add-drop-table "${DATABASE}" > "$BASEDIR"/sql/migrations/snapshot.sql
+  echo ">>> Completed."
+}
+
 
 ############################
 # Drop Database
@@ -171,6 +181,9 @@ case "$1" in
   ;;
 "reset")
   reset
+  ;;
+"snapshot")
+  snapshot
   ;;
 "drop")
   drop
