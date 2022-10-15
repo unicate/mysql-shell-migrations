@@ -137,15 +137,6 @@ migrate() {
   echo ">>> Completed with ${ERROR_COUNTER} errors."
 }
 
-############################
-# Snapshot
-############################
-snapshot() {
-  echo ">>> Creating snapshot of database '${DATABASE}'."
-  $MYSQLDUMP_BIN --defaults-extra-file=./.root.cnf --add-drop-table "${DATABASE}" > "$BASEDIR"/sql/migrations/snapshot.sql
-  echo ">>> Completed."
-}
-
 
 ############################
 # Drop Database
@@ -181,9 +172,6 @@ case "$1" in
   ;;
 "reset")
   reset
-  ;;
-"snapshot")
-  snapshot
   ;;
 "drop")
   drop
