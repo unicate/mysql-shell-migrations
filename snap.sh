@@ -58,7 +58,7 @@ snapshotLoad() {
 
   len=${#options[@]}
   echo ">>> Select snapshot to load:"
-  read -n1 -r -s input
+  read -n1 -r input
 
   if [ "$input" -le "$len" ]; then
     echo ">>> Creating database '${DATABASE}'."
@@ -73,6 +73,27 @@ snapshotLoad() {
 }
 
 ############################
+# Clean snapshots
+############################
+clean() {
+  echo ">>> Cleanup snapshot files."
+  echo "ATTENTION: This will remove all snapshot files!"
+
+      read -r -p "Do you want to continue? [y/n] " response
+      case "$response" in
+        [yY])
+        echo ">>> Deleting snapshot files."
+        rm -v ./sql/snapshots/*.sql
+        ;;
+      *)
+        echo ">>> Deleting snapshots aborted."
+        exit 0
+        ;;
+      esac
+  echo ">>> Completed."
+}
+
+############################
 # Arguments
 ############################
 case "$1" in
@@ -84,6 +105,9 @@ case "$1" in
   ;;
 "load")
   snapshotLoad
+  ;;
+"clean")
+  clean
   ;;
 *)
   echo 'Usage: ./db.sh [init|create|load]'
