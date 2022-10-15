@@ -110,7 +110,7 @@ case "$1" in
   clean
   ;;
 *)
-  echo 'Usage: ./db.sh [init|create|load]'
+  echo 'Usage: ./db.sh [init|create|load|clean]'
   exit 1
   ;;
 esac
